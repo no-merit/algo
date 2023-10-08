@@ -69,6 +69,7 @@ public class Main {
     //답, bfs로 최단 거리 탐색
 		Queue<game> q = new LinkedList<>();//매 턴의 상태를 q에 담음
 		q.add(new game(R[0],R[1],B[0],B[1],0)); //초기 상태
+		checked[R[0]][R[1]][B[0]][B[1]] =true;
 		problem :while(!q.isEmpty()) {
 			game now = q.poll();
 			//현재 빨간 구슬의 위치에서 사방탐색
