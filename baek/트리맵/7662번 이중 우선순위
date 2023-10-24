@@ -1,0 +1,74 @@
+package java23;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.Comparator;
+import java.util.TreeMap;
+
+public class Main {
+	static StringBuilder sb;
+
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		sb = new StringBuilder();
+
+		int T = Integer.parseInt(br.readLine());
+
+		for (int t = 0; t < T; t++) {
+//정렬이 되는데 logn 인 컬렉션을 사용. 값이 몇번 들어갔는지도 value를 통해 확인 가
+			TreeMap<Integer, Integer> map = new TreeMap<>(new Comparator<Integer>() {
+
+				@Override
+				public int compare(Integer o1, Integer o2) {
+					// TODO Auto-generated method stub
+					return Integer.compare(o1, o2);
+				}
+			});
+  /* compare(x, y) 매서드는 
+x == y 일 경우 0 리턴
+x < y   일 경우 음수 리턴
+x > y   일 경우 양수 리턴*/
+
+			int k = Integer.parseInt(br.readLine());
+			for (int i = 0; i < k; i++) {// 1,000,000
+				String[] command = br.readLine().split(" ");
+				String s = command[0];
+				if (s.equals("I")) {
+					int num = Integer.parseInt(command[1]);
+					map.put(num, map.getOrDefault(num, 0)+1);
+				} else {
+					int type = Integer.parseInt(command[1]);
+					int num = 0;
+					if(map.size()==0) continue;
+					if (type < 0) {
+						num = map.firstKey();
+					} else {
+						num = map.lastKey();
+					}
+
+//map.put 매서드는 이미 key값에 밸류가 있으면 새로운 벨류를 넣으면서 원래 값을 반환한다.
+
+					if(map.put(num, map.get(num)-1)==1){
+						map.remove(num);
+					}
+				}
+			}
+			if(map.size()==0) {
+				sb.append("EMPTY").append("\n");
+			}else {
+				sb.append(map.lastKey() + " " +map.firstKey()).append("\n");
+			}
+		}
+
+		bw.write(sb.toString());
+		bw.flush();
+		bw.close();
+		br.close();
+
+	}
+
+}
