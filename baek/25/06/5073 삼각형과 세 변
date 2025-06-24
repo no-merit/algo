@@ -1,0 +1,60 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.HashMap;
+
+
+public class Main {
+
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
+		while(true) {
+			HashMap<Integer,Integer> map = new HashMap<>();
+			String [] input = br.readLine().split(" ");
+			int A = Integer.parseInt(input[0]);
+			int B = Integer.parseInt(input[1]);
+			int C = Integer.parseInt(input[2]);
+			if(A==0 && B==0 && C==0) {
+				break;
+			}
+			int sum = A+B+C;
+			//A
+			int A_cnt = map.getOrDefault(A, 0);
+			map.put(A, A_cnt+1);
+			//B
+			int B_cnt = map.getOrDefault(B, 0);
+			map.put(B, B_cnt+1);
+			//C
+			int C_cnt = map.getOrDefault(C, 0);
+			map.put(C, C_cnt+1);
+			
+			int one = 0;
+			int two = 0;
+			int thr = 0;
+			for(int i: map.keySet()) {
+				if(map.get(i)==1) {
+					one++;
+				}else if(map.get(i)==2) {
+					two++;
+				}else {
+					thr++;
+				}
+			}
+			if(thr==1) {
+				sb.append("Equilateral").append("\n");
+			}else if(two==1){
+				int max = Math.max(A, Math.max(B, C));
+				sum-=max;
+				if(sum<=max) sb.append("Invalid").append("\n");
+				else sb.append("Isosceles").append("\n");
+			}else {
+				int max = Math.max(A, Math.max(B, C));
+				sum-=max;
+				if(sum<=max) sb.append("Invalid").append("\n");
+				else sb.append("Scalene ").append("\n");
+			}
+		}
+		System.out.println(sb.toString());
+	}
+}
